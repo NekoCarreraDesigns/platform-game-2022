@@ -18,6 +18,7 @@ levelTwo_map = [
     'XXXX    XXX   XX      X       ',
     'XX P  XX     XX    XX     XXX ',
     'XXXX      X     X    X   X    ',
-    'XXXXX    XX   X X  XX  XXX XX ',
-    'XXX   XXXXX  XX XX XX   XXXX  ',
-    'XXXXXXX  XX  XX XXXXX  XXX    ', ]
+    'XXXXX    XX   X X  XX  XX  XX ',
+    'XXX   XXXXX  XX XX XX    XXX  ',
+    'XXXXX    XX  XX XXXXX  XXX    ',
+    'XXXXXXXXXXX  XX XXXXX XXXXXXXX']
