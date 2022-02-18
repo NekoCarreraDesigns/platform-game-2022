@@ -1,27 +1,27 @@
 levelOne_map = [
-    '                             ',
-    '                          ',
-    '                          ',
-    'XXX    XXX          XX    ',
-    'XX P                      ',
-    'XXXX        XX         XX ',
-    'XXXX      XX    XX  XX    ',
-    'XX    X XXXX    XX  XXX   ',
-    '      X XXXX    XX  XXXX  ',
-    '   XXXX XXXXXX  XX  XXXX  ',
-    'XXXXXXX XXXXXX  XX  XXXX  ']
+    '                      ',
+    '                      ',
+    '                      ',
+    'XX    XXX      XX     ',
+    'XX P                  ',
+    'XXXX        XX     XX ',
+    'XXXX      XX    XX    ',
+    'XX    X XXXX    XXX   ',
+    '      X XXXX    XXXX  ',
+    '   XXXX XXXXXX  XXXX  ',
+    'XXXXXXX XXXXXX  XXXX  ']
 
 levelTwo_map = [
-    '                              ',
-    '                              ',
-    '                              ',
-    'XXXX    XXX   XX      X       ',
-    'XX P  XX     XX    XX     XXX ',
-    'XXXX      X     X    X   X    ',
-    'XXXXX    XX   X X  XX  XX  XX ',
-    'XXX   XXXXX  XX XX XX    XXX  ',
-    'XXXXX    XX  XX XXXXX  XXX    ',
-    'XXXXXXXXXXX  XX XXXXX XXXXXXXX']
+    '                      ',
+    '                      ',
+    '                      ',
+    'XXXX    XXX           ',
+    'XX P  XX     XX    XXX',
+    'XXXX      X      X    ',
+    'XXXXX    XX    X   X ',
+    'XXX   XXXXX  X    XX ',
+    'XXXXX       XX XXXXX ',
+    'XXXXXXXXXXX  XX XXXXX ']
 
 tile_size = 64
 screen_width = 1200
