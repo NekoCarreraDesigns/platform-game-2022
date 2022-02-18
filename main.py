@@ -1,26 +1,20 @@
 import pygame
+import sys
+
+pygame.init()
+screen_width = 1200
+screen_height = 700
+screen = pygame.display.set_mode((screen_width, screen_height))
+clock = pygame.time.Clock()
 
 
-levelOne_map = [
-    '                             ',
-    '                          ',
-    '                          ',
-    'xxx    xxx          xx    ',
-    'xx P                      ',
-    'xxxx        xx         xx ',
-    'xxxx      xx    xx  xx    ',
-    'xx    x xxxx    xx  xxx   ',
-    '      x xxxx    xx  xxxx  ',
-    '   xxxx xxxxxx  xx  xxxx  ',
-    'xxxxxxx xxxxxx  xx  xxxx  ']
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
 
-levelTwo_map = [
-    '                              ',
-    '                              ',
-    '                              ',
-    'xxxx    xxx   xx      x       ',
-    'xx P  xx     xx    xx     xxx ',
-    'xxxx      x     x    x   x    ',
-    'xxxxx    xx   x x  xx  xxx xx ',
-    'xxx   xxxxx  xx xx xx   xxxx  ',
-    'xxxxxxx  xx  xx xxxxx  xxx    ', ]
+    screen.fill((0, 0, 0))
+
+    pygame.display.update()
+    clock.tick(120)
