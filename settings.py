@@ -18,9 +18,9 @@ levelTwo_map = [
     'XXXX    XXX           ',
     'XX P  XX     XX    XXX',
     'XXXX      X      X    ',
-    'XXXXX    XX    X   X ',
-    'XXX   XXXXX  X    XX ',
-    'XXXXX       XX XXXXX ',
+    'XXXXX    XX    X   X  ',
+    'XXX   XXXXX  X    XX  ',
+    'XXXXX       XX XXXXX  ',
     'XXXXXXXXXXX  XX XXXXX ']
 
 tile_size = 64
