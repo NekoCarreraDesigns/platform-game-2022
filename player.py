@@ -61,7 +61,7 @@ class Player(pygame.sprite.Sprite):
         elif keys[pygame.K_LEFT]:
             self.direction.x = -1
             self.faces_right = False
-        elif keys[pygame.K_SPACE]:
+        elif keys[pygame.K_SPACE] and self.on_ground:
             self.jump()
 
         else:
