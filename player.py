@@ -45,6 +45,13 @@ class Player(pygame.sprite.Sprite):
             flipped_image = pygame.transform.flip(image, True, False)
             self.image = flipped_image
 
+        if self.on_ground:
+            self.rect = self.image.get_rect(midbottom=self.rect.midbottom)
+        elif self.on_ceiling:
+            self.rect = self.image.get_rect(midtop=self.rect.midtop)
+        else:
+            self.rect = self.image.get_rect(center=self.rect.center)
+
     def get_input(self):
         keys = pygame.key.get_pressed()
 
