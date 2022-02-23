@@ -13,6 +13,7 @@ class Level:
         self.current_x = 0
         # dust
         self.dust_sprite = pygame.sprite.GroupSingle()
+        self.player_on_ground = False
 
     def create_jump_particles(self, pos):
         if self.player.sprite.faces_right:
@@ -21,6 +22,22 @@ class Level:
             pos += pygame.math.Vector2(10, 5)
         jump_particle_sprite = Particle_Effect(pos, 'jump')
         self.dust_sprite.add(jump_particle_sprite)
+
+    def get_player_ground(self):
+        if self.player.sprite.on_ground:
+            self.player_on_ground = True
+        else:
+            self.player_on_ground = False
+
+    def create_landing_particles(self):
+        if not self.player_on_ground and self.player.sprite.on_ground and not self.dust_sprite.sprites():
+            if self.player.sprite.faces_right:
+                offset = pygame.math.Vector2(10, 15)
+            else:
+                offset = pygame.math.Vector2(-10, 15)
+            fall_dust_particle = Particle_Effect(
+                self.player.sprite.rect.midbottom - offset, 'land')
+            self.dust_sprite.add(fall_dust_particle)
 
     def setup_level(self, layout, surface):
         self.tiles = pygame.sprite.Group()
@@ -105,5 +122,7 @@ class Level:
         # player
         self.player.update()
         self.horizontal_movement_collision()
+        self.get_player_ground()
         self.vertical_movement_collision()
+        self.create_landing_particles()
         self.player.draw(self.display_surface)
