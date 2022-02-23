@@ -7,11 +7,11 @@ from player import Player
 class Level:
     def __init__(self, level_data, surface):
         self.display_surface = surface
-        self.setup_level(level_data)
+        self.setup_level(level_data, surface)
         self.world_shift = 0
         self.current_x = 0
 
-    def setup_level(self, layout):
+    def setup_level(self, layout, surface):
         self.tiles = pygame.sprite.Group()
         self.player = pygame.sprite.GroupSingle()
         for row_index, row in enumerate(layout):
@@ -22,7 +22,7 @@ class Level:
                     tile = Tile((x, y), tile_size)
                     self.tiles.add(tile)
                 if cell == "P":
-                    player_sprite = Player((x, y))
+                    player_sprite = Player((x, y), surface)
                     self.player.add(player_sprite)
 
     def scroll_x(self):
