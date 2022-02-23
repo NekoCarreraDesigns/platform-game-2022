@@ -4,6 +4,7 @@ from support import import_folder
 
 class Particle_Effect(pygame.sprite.Sprite):
     def __init__(self, pos, type):
+        super().__init__()
         self.frame_index = 0
         self.animation_speed = 0.5
         if type == 'jump':

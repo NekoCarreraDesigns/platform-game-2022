@@ -5,7 +5,7 @@ from support import import_folder
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, surface):
+    def __init__(self, pos, surface, create_jump_particles):
         super().__init__()
         # character animation
         self.import_character_assets()
@@ -18,6 +18,7 @@ class Player(pygame.sprite.Sprite):
         self.dust_frame_index = 0
         self.dust_animation_speed = 0.15
         self.display_surface = surface
+        self.create_jump_particles = create_jump_particles
         # player movement
         self.direction = pygame.math.Vector2(0, 0)
         self.speed = 1
@@ -100,6 +101,7 @@ class Player(pygame.sprite.Sprite):
             self.faces_right = False
         elif keys[pygame.K_SPACE] and self.on_ground:
             self.jump()
+            self.create_jump_particles(self.rect.midbottom)
 
         else:
             self.direction.x = 0
