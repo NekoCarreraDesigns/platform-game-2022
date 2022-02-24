@@ -24,5 +24,5 @@ levelTwo_map = [
     'XXXXXXXXXXX  XX XXXXX ']
 
 tile_size = 64
-screen_width = 1200
-screen_height = len(levelOne_map) * tile_size
+screen_width = 1280
+screen_height = 720
