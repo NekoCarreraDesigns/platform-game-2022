@@ -3,12 +3,13 @@ import pygame
 import sys
 from settings import *
 from levels import Level
+from game_data import level_0
 
 # pygame global variables
 pygame.init()
 screen = pygame.display.set_mode((screen_width, screen_height))
 clock = pygame.time.Clock()
-level = Level(level_data, screen)
+level = Level(level_0, screen)
 
 
 # caption and title
