@@ -1,5 +1,5 @@
 import pygame
-from tiles import Tile
+from tiles import Tile, StaticTile
 from settings import tile_size, screen_width
 from player import Player
 # from particles import Particle_Effect
@@ -16,7 +16,7 @@ class Level:
         self.dust_sprite = pygame.sprite.GroupSingle()
         self.player_on_ground = False
 
-        terrain_layout = import_csv_layout(level_data)
+        terrain_layout = import_csv_layout('level_0.tmx')
         self.terrain_sprites = self.setup_level(terrain_layout, 'terrain')
 
     # def create_jump_particles(self, pos):
@@ -54,9 +54,9 @@ class Level:
 
                     if type == 'terrain':
                         terrain_tile_list = import_cut_graphics(
-                            './graphics/terrain/terrain_tiles.png')
+                            '../graphics/terrain/terrain_tiles.png')
                         tile_surface = terrain_tile_list[int(val)]
-                        sprite = Tile(tile_size, x, y)
+                        sprite = StaticTile(tile_size, x, y, tile_surface)
                         sprite_group.add(sprite)
 
         return sprite_group
