@@ -2,7 +2,7 @@ import pygame
 from tiles import Tile
 from settings import tile_size, screen_width
 from player import Player
-from particles import Particle_Effect
+# from particles import Particle_Effect
 from support import import_csv_layout
 
 
@@ -16,15 +16,16 @@ class Level:
         self.dust_sprite = pygame.sprite.GroupSingle()
         self.player_on_ground = False
 
-        import_csv_layout(level_data['level_0'])
+        terrain_layout = import_csv_layout(level_data)
+        print(terrain_layout)
 
-    def create_jump_particles(self, pos):
-        if self.player.sprite.faces_right:
-            pos -= pygame.math.Vector2(10, 5)
-        else:
-            pos += pygame.math.Vector2(10, 5)
-        jump_particle_sprite = Particle_Effect(pos, 'jump')
-        self.dust_sprite.add(jump_particle_sprite)
+    # def create_jump_particles(self, pos):
+    #     if self.player.sprite.faces_right:
+    #         pos -= pygame.math.Vector2(10, 5)
+    #     else:
+    #         pos += pygame.math.Vector2(10, 5)
+    #     jump_particle_sprite = Particle_Effect(pos, 'jump')
+    #     self.dust_sprite.add(jump_particle_sprite)
 
     def get_player_ground(self):
         if self.player.sprite.on_ground:
@@ -32,15 +33,15 @@ class Level:
         else:
             self.player_on_ground = False
 
-    def create_landing_particles(self):
-        if not self.player_on_ground and self.player.sprite.on_ground and not self.dust_sprite.sprites():
-            if self.player.sprite.faces_right:
-                offset = pygame.math.Vector2(10, 15)
-            else:
-                offset = pygame.math.Vector2(-10, 15)
-            fall_dust_particle = Particle_Effect(
-                self.player.sprite.rect.midbottom - offset, 'land')
-            self.dust_sprite.add(fall_dust_particle)
+    # def create_landing_particles(self):
+    #     if not self.player_on_ground and self.player.sprite.on_ground and not self.dust_sprite.sprites():
+    #         if self.player.sprite.faces_right:
+    #             offset = pygame.math.Vector2(10, 15)
+    #         else:
+    #             offset = pygame.math.Vector2(-10, 15)
+    #         fall_dust_particle = Particle_Effect(
+    #             self.player.sprite.rect.midbottom - offset, 'land')
+    #         self.dust_sprite.add(fall_dust_particle)
 
     def setup_level(self, layout, surface):
         self.tiles = pygame.sprite.Group()
