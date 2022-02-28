@@ -1,4 +1,6 @@
+from re import I
 import pygame
+from support import import_folder
 
 
 class Tile(pygame.sprite.Sprite):
