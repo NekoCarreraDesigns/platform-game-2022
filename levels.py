@@ -1,6 +1,7 @@
 import pygame
-from tiles import Tile, StaticTile
+from tiles import AnimatedTile, Tile, StaticTile, Coins, Crate, Palms
 from settings import tile_size, screen_width
+from enemy import Enemy
 from player import Player
 # from particles import Particle_Effect
 from support import import_csv_layout, import_cut_graphics
@@ -13,6 +14,12 @@ class Level:
         # scrolling
         self.world_shift = 0
         self.current_x = 0
+
+        # player
+        player_layout = import_csv_layout(level_data)
+        self.player = pygame.sprite.GroupSingle()
+        self.goal = pygame.sprite.GroupSingle()
+        self.player_setup(player_layout)
 
         # dust
         self.dust_sprite = pygame.sprite.GroupSingle()
@@ -27,9 +34,26 @@ class Level:
         grass_layout = import_csv_layout(level_data)
         self.grass_sprites = self.setup_level(grass_layout, 'grass.png')
 
-        # crates
+        # crates layout
         crate_layout = import_csv_layout(level_data)
         self.crate_sprites = self.setup_level(crate_layout, 'crate.png')
+
+        # coins layout
+        coins_layout = import_csv_layout(level_data)
+        self.coins_sprites = self.setup_level(coins_layout, 'coins')
+
+        # palms layout
+        palms_layout = import_csv_layout(level_data)
+        self.palms_sprites = self.setup_level(palms_layout, 'palms')
+
+        # enemy layout
+        enemy_layout = import_csv_layout(level_data)
+        self.enemy_sprites = self.setup_level(enemy_layout, 'enemy')
+
+        # constraints
+        constraints_layout = import_csv_layout(level_data)
+        self.constraints = self.setup_level(constraints_layout, 'constraints')
+
     # def create_jump_particles(self, pos):
     #     if self.player.sprite.faces_right:
     #         pos -= pygame.math.Vector2(10, 5)
@@ -75,7 +99,26 @@ class Level:
                         tile_surface = grass_tile_list[int(val)]
                         sprite = StaticTile(tile_size, x, y, tile_surface)
 
-                        sprite_group.add(sprite)
+                    if type == "crate":
+                        sprite = Crate(tile_size, x, y)
+
+                    if type == 'coins':
+                        if val == '0':
+                            sprite = Coins(tile_size, x, y,
+                                           './graphics/coins/gold.png')
+                        if val == '1':
+                            sprite = Coins(tile_size, x, y,
+                                           './graphics/coins/silver')
+                    if type == 'fg_palms':
+                        sprite = Palms(tile_size, x, y,
+                                       './graphics/terrain/palm_small', 38)
+
+                    if type == 'enemies':
+                        sprite = Enemy(tile_size, x, y, './graphics/')
+
+                    if type == 'constraint':
+                        sprite = Tile(tile_size, x, y)
+                    sprite_group.add(sprite)
 
         return sprite_group
 
@@ -93,6 +136,24 @@ class Level:
         else:
             self.world_shift = 0
             player.speed = 8
+
+    def player_setup(self, layout):
+        for row_index, row in enumerate(layout):
+            for col_index, val in enumerate(row):
+                x = col_index * tile_size
+                y = row_index * tile_size
+                if val == '0':
+                    print("player")
+                if val == '1':
+                    hat_surface = pygame.image.load(
+                        './graphics/character/hat.png').convert_alpha()
+                    sprite = StaticTile(tile_size, x, y, hat_surface)
+                    self.goal.add()
+
+    def enemy_collision_reverse(self):
+        for enemy in self.enemy_sprites.sprites():
+            if pygame.sprite.spritecollide(enemy, self.constraints, False):
+                enemy.reverse()
 
     def horizontal_movement_collision(self):
         player = self.player.sprite
@@ -144,11 +205,31 @@ class Level:
         self.terrain_sprites.draw(self.display_surface)
         self.scroll_x()
 
+        # enemy
+        self.enemy_sprites.update(self.world_shift)
+        self.constraints.update(self.world_shift)
+        self.enemy_collision_reverse()
+        self.enemy_sprites.draw(self.display_surface)
+
+        # crates
+        self.crate_sprites.update(self.world_shift)
+        self.crate_sprites.draw(self.display_surface)
+
         # grass
         self.grass_sprites.update(self.world_shift)
         self.grass_sprites.draw(self.display_surface)
 
-        # crates
+        # coins
+        self.coins_sprites.update(self.world_shift)
+        self.coins_sprites.draw(self.display_surface)
+
+        # palms
+        self.palms_sprites.update(self.world_shift)
+        self.palms_sprites.draw(self.display_surface)
+
+        # player sprites
+        self.goal.update(self.world_shift)
+        self.goal.draw(self.display_surface)
 
         # player
         self.player.update()
