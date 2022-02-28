@@ -56,3 +56,5 @@ class Coins(AnimatedTile):
 class Palms(AnimatedTile):
     def __init__(self, size, x, y, path):
         super().__init__(size, x, y, path)
+        offset_y = y - size
+        self.rect.topleft = (x, offset_y)
