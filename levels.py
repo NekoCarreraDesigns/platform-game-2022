@@ -8,17 +8,28 @@ from support import import_csv_layout, import_cut_graphics
 
 class Level:
     def __init__(self, level_data, surface):
+        # screen
         self.display_surface = surface
-
+        # scrolling
         self.world_shift = 0
         self.current_x = 0
+
         # dust
         self.dust_sprite = pygame.sprite.GroupSingle()
         self.player_on_ground = False
 
-        terrain_layout = import_csv_layout('level_0.tmx')
-        self.terrain_sprites = self.setup_level(terrain_layout, 'terrain')
+        # terrain layout
+        terrain_layout = import_csv_layout(level_data)
+        self.terrain_sprites = self.setup_level(
+            terrain_layout, 'terrain_tiles.png')
 
+        # grass layout
+        grass_layout = import_csv_layout(level_data)
+        self.grass_sprites = self.setup_level(grass_layout, 'grass.png')
+
+        # crates
+        crate_layout = import_csv_layout(level_data)
+        self.crate_sprites = self.setup_level(crate_layout, 'crate.png')
     # def create_jump_particles(self, pos):
     #     if self.player.sprite.faces_right:
     #         pos -= pygame.math.Vector2(10, 5)
@@ -54,9 +65,16 @@ class Level:
 
                     if type == 'terrain':
                         terrain_tile_list = import_cut_graphics(
-                            '../graphics/terrain/terrain_tiles.png')
+                            './graphics/terrain/terrain_tiles.png')
                         tile_surface = terrain_tile_list[int(val)]
                         sprite = StaticTile(tile_size, x, y, tile_surface)
+
+                    if type == 'grass':
+                        grass_tile_list = import_cut_graphics(
+                            './graphics/decorations/grass.png')
+                        tile_surface = grass_tile_list[int(val)]
+                        sprite = StaticTile(tile_size, x, y, tile_surface)
+
                         sprite_group.add(sprite)
 
         return sprite_group
@@ -125,6 +143,12 @@ class Level:
         self.terrain_sprites.update(self.world_shift)
         self.terrain_sprites.draw(self.display_surface)
         self.scroll_x()
+
+        # grass
+        self.grass_sprites.update(self.world_shift)
+        self.grass_sprites.draw(self.display_surface)
+
+        # crates
 
         # player
         self.player.update()
