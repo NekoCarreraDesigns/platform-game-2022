@@ -1,8 +1,9 @@
 import pygame
-from tiles import AnimatedTile, Tile, StaticTile, Coins, Crate, Palms
-from settings import tile_size, screen_width
+from tiles import Tile, StaticTile, Coins, Crate, Palms
+from settings import tile_size, screen_width, screen_height
 from enemy import Enemy
 from player import Player
+from decoration import Clouds, Sky, Water
 # from particles import Particle_Effect
 from support import import_csv_layout, import_cut_graphics
 
@@ -54,6 +55,12 @@ class Level:
         constraints_layout = import_csv_layout(level_data)
         self.constraints = self.setup_level(constraints_layout, 'constraints')
 
+        # decorations
+        self.sky = Sky(8)
+        level_width = len(terrain_layout[0]) * tile_size
+        self.water = Water(screen_height - 40, level_width)
+        self.clouds = Clouds(400, level_width, 20)
+
     # def create_jump_particles(self, pos):
     #     if self.player.sprite.faces_right:
     #         pos -= pygame.math.Vector2(10, 5)
@@ -101,24 +108,26 @@ class Level:
 
                     if type == "crate":
                         sprite = Crate(tile_size, x, y)
-
+                        sprite_group.add(sprite)
                     if type == 'coins':
                         if val == '0':
                             sprite = Coins(tile_size, x, y,
                                            './graphics/coins/gold.png')
+                            sprite_group.add(sprite)
                         if val == '1':
                             sprite = Coins(tile_size, x, y,
                                            './graphics/coins/silver')
+                            sprite_group.add(sprite)
                     if type == 'fg_palms':
                         sprite = Palms(tile_size, x, y,
                                        './graphics/terrain/palm_small', 38)
-
+                        sprite_group.add(sprite)
                     if type == 'enemies':
                         sprite = Enemy(tile_size, x, y, './graphics/')
-
+                        sprite_group.add(sprite)
                     if type == 'constraint':
                         sprite = Tile(tile_size, x, y)
-                    sprite_group.add(sprite)
+                        sprite_group.add(sprite)
 
         return sprite_group
 
@@ -200,6 +209,10 @@ class Level:
         self.dust_sprite.update(self.world_shift)
         self.dust_sprite.draw(self.display_surface)
 
+        # decoration
+        self.sky.draw(self.display_surface)
+        self.clouds.draw(self.display_surface, self.world_shift)
+
         # tiles
         self.terrain_sprites.update(self.world_shift)
         self.terrain_sprites.draw(self.display_surface)
@@ -230,6 +243,9 @@ class Level:
         # player sprites
         self.goal.update(self.world_shift)
         self.goal.draw(self.display_surface)
+
+        # water
+        self.water.draw(self.display_surface, self.world_shift)
 
         # player
         self.player.update()
