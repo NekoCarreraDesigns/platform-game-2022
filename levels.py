@@ -1,5 +1,5 @@
 import pygame
-from tiles import Tile, StaticTile, Coins, Crate, Palms
+from tiles import Coins, Tile, StaticTile, Crate, Palms
 from settings import tile_size, screen_width, screen_height
 from enemy import Enemy
 from player import Player
@@ -17,7 +17,7 @@ class Level:
         self.current_x = 0
 
         # player
-        player_layout = import_csv_layout(level_data)
+        player_layout = import_csv_layout(level_data['player'])
         self.player = pygame.sprite.GroupSingle()
         self.goal = pygame.sprite.GroupSingle()
         self.player_setup(player_layout)
@@ -27,32 +27,36 @@ class Level:
         self.player_on_ground = False
 
         # terrain layout
-        terrain_layout = import_csv_layout(level_data)
+        terrain_layout = import_csv_layout(level_data['terrain'])
         self.terrain_sprites = self.setup_level(
-            terrain_layout, 'terrain_tiles.png')
+            terrain_layout, 'terrain')
 
         # grass layout
-        grass_layout = import_csv_layout(level_data)
-        self.grass_sprites = self.setup_level(grass_layout, 'grass.png')
+        grass_layout = import_csv_layout(level_data['grass'])
+        self.grass_sprites = self.setup_level(grass_layout, 'grass')
 
         # crates layout
-        crate_layout = import_csv_layout(level_data)
-        self.crate_sprites = self.setup_level(crate_layout, 'crate.png')
+        crate_layout = import_csv_layout(level_data['crates'])
+        self.crate_sprites = self.setup_level(crate_layout, 'crates')
 
         # coins layout
-        coins_layout = import_csv_layout(level_data)
+        coins_layout = import_csv_layout(level_data['coins'])
         self.coins_sprites = self.setup_level(coins_layout, 'coins')
 
-        # palms layout
-        palms_layout = import_csv_layout(level_data)
-        self.palms_sprites = self.setup_level(palms_layout, 'palms')
+        # foreground palms layout
+        fg_palms_layout = import_csv_layout(level_data['fg palms'])
+        self.fg_palms_sprites = self.setup_level(fg_palms_layout, 'fg palms')
+
+        # background palms layout
+        bg_palms_layout = import_csv_layout(level_data['bg palms'])
+        self.bg_palms_sprites = self.setup_level(bg_palms_layout, 'bg palms')
 
         # enemy layout
-        enemy_layout = import_csv_layout(level_data)
-        self.enemy_sprites = self.setup_level(enemy_layout, 'enemy')
+        enemy_layout = import_csv_layout(level_data['enemies'])
+        self.enemy_sprites = self.setup_level(enemy_layout, 'enemies')
 
         # constraints
-        constraints_layout = import_csv_layout(level_data)
+        constraints_layout = import_csv_layout(level_data['constraints'])
         self.constraints = self.setup_level(constraints_layout, 'constraints')
 
         # decorations
@@ -102,32 +106,37 @@ class Level:
 
                     if type == 'grass':
                         grass_tile_list = import_cut_graphics(
-                            './graphics/decorations/grass.png')
+                            './graphics/decorations/grass/grass.png')
                         tile_surface = grass_tile_list[int(val)]
                         sprite = StaticTile(tile_size, x, y, tile_surface)
 
-                    if type == "crate":
+                    if type == "crates":
                         sprite = Crate(tile_size, x, y)
-                        sprite_group.add(sprite)
+
                     if type == 'coins':
                         if val == '0':
                             sprite = Coins(tile_size, x, y,
-                                           './graphics/coins/gold.png')
-                            sprite_group.add(sprite)
+                                           './graphics/coins/gold')
+
                         if val == '1':
                             sprite = Coins(tile_size, x, y,
                                            './graphics/coins/silver')
-                            sprite_group.add(sprite)
-                    if type == 'fg_palms':
+
+                    if type == 'fg palms':
                         sprite = Palms(tile_size, x, y,
                                        './graphics/terrain/palm_small', 38)
-                        sprite_group.add(sprite)
+
+                    if type == 'bg palms':
+                        sprite = Palms(tile_size, x, y,
+                                       './graphics/terrain/palm_bg', 64)
+
                     if type == 'enemies':
-                        sprite = Enemy(tile_size, x, y, './graphics/')
-                        sprite_group.add(sprite)
+                        sprite = Enemy(tile_size, x, y)
+
                     if type == 'constraint':
                         sprite = Tile(tile_size, x, y)
-                        sprite_group.add(sprite)
+
+                    sprite_group.add(sprite)
 
         return sprite_group
 
@@ -213,6 +222,10 @@ class Level:
         self.sky.draw(self.display_surface)
         self.clouds.draw(self.display_surface, self.world_shift)
 
+        # background palms
+        self.bg_palms_sprites.update(self.world_shift)
+        self.bg_palms_sprites.draw(self.display_surface)
+
         # tiles
         self.terrain_sprites.update(self.world_shift)
         self.terrain_sprites.draw(self.display_surface)
@@ -236,9 +249,9 @@ class Level:
         self.coins_sprites.update(self.world_shift)
         self.coins_sprites.draw(self.display_surface)
 
-        # palms
-        self.palms_sprites.update(self.world_shift)
-        self.palms_sprites.draw(self.display_surface)
+        # foreground palms
+        self.fg_palms_sprites.update(self.world_shift)
+        self.fg_palms_sprites.draw(self.display_surface)
 
         # player sprites
         self.goal.update(self.world_shift)

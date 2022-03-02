@@ -1,7 +1,7 @@
 level_0 = {
     'terrain': './levels/0/level_0_terrain.csv',
     'coins': './levels/0/level_0_coins.csv',
-    'bg palms': '.levels/0/level_0_bg_palms',
+    'bg palms': './levels/0/level_0_bg_palms',
     'fg palms': './levels/0/level_0_fg_palms.csv',
     'crates': './levels/0/level_0_crates.csv',
     'enemies': './levels/0/level_0_enemies.csv',
