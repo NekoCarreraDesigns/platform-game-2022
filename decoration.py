@@ -9,9 +9,9 @@ class Sky:
     def __init__(self, horizon):
         self.top = pygame.image.load(
             './graphics/decorations/sky/sky_top.png').convert()
-        self.top = pygame.image.load(
+        self.bottom = pygame.image.load(
             './graphics/decorations/sky/sky_bottom.png').convert()
-        self.top = pygame.image.load(
+        self.middle = pygame.image.load(
             './graphics/decorations/sky/sky_middle.png').convert()
         self.horizon = horizon
 
