@@ -133,7 +133,7 @@ class Level:
                     if type == 'enemies':
                         sprite = Enemy(tile_size, x, y)
 
-                    if type == 'constraint':
+                    if type == 'constraints':
                         sprite = Tile(tile_size, x, y)
 
                     sprite_group.add(sprite)
