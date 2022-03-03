@@ -1,4 +1,5 @@
 from re import I
+from stat import ST_SIZE
 import pygame
 from support import import_folder
 
@@ -9,8 +10,8 @@ class Tile(pygame.sprite.Sprite):
         self.image = pygame.Surface((size, size))
         self.rect = self.image.get_rect(topleft=(x, y))
 
-    def update(self, x_shift):
-        self.rect.x += x_shift
+    def update(self, shift):
+        self.rect.x += shift
 
 
 class StaticTile(Tile):
